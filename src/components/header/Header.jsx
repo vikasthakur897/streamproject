@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 
 import "./header.scss";
 
-import logo from "./../../assets/watch_serve_logo.png";
+import logo from "./../../assets/Watch&ServeLogo.png";
 
 import * as Config from "./../../constants/Config";
 
@@ -54,7 +54,7 @@ const Header = () => {
           <img
             src={logo}
             alt="logo"
-            className="w-10 h-10 rounded-lg shadow-md border border-gray-700 object-cover"
+            className="w-15 h-15 rounded-lg object-cover"
           />
           <Link
             to={`/${Config.HOME_PAGE}`}

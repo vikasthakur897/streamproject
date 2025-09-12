@@ -5,7 +5,7 @@ import "./footer.scss";
 import { Link } from "react-router-dom";
 
 import bg from "./../../assets/footer-bg.jpg";
-import logo from "./../../assets/logo.png";
+import logo from "./../../assets/Watch&ServeLogo.png";
 
 import * as Config from "./../../constants/Config";
 
@@ -16,11 +16,11 @@ const Footer = () => {
         <div className="footer__content__logo">
           <div className="logo">
             <img src={logo} alt="logo" />
-            <Link to={`/${Config.HOME_PAGE}`}>hMovies</Link>
+            <Link to={`/${Config.HOME_PAGE}`}>Watch&Serve</Link>
           </div>
         </div>
 
-        <div className="footer__content__menus">
+        {/* <div className="footer__content__menus">
           <div className="footer__content__menu">
             <Link to={`/${Config.HOME_PAGE}`}>Home</Link>
             <Link to={`/${Config.HOME_PAGE}`}>Contact us</Link>
@@ -38,7 +38,7 @@ const Footer = () => {
             <Link to={`/${Config.HOME_PAGE}`}>Recent release</Link>
             <Link to={`/${Config.HOME_PAGE}`}>Top IMDB</Link>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
