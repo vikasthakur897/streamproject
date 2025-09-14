@@ -16,7 +16,11 @@ const Footer = () => {
         <div className="footer__content__logo">
           <div className="logo">
             <img src={logo} alt="logo" />
-            <Link to={`/${Config.HOME_PAGE}`}>Watch&Serve</Link>
+            <Link to={`/${Config.HOME_PAGE}`} className="hover:text-neutral-50">
+              Watch
+              <strong className="text-red-500">&</strong>
+              Serve
+            </Link>
           </div>
         </div>
 

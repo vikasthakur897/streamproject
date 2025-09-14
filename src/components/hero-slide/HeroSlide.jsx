@@ -6,7 +6,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import Button, { OutlineButton } from "./../button/Button";
 import Modal, { ModalContent } from "./../modal/Modal";
 
-import tmdbApi, { category, movieType } from "./../../api/tmdbApi";
+import tmdbApi, { category, movieType, tvType } from "./../../api/tmdbApi";
 import apiConfig from "./../../api/apiConfig";
 
 import "./hero-slide.scss";
@@ -20,20 +20,45 @@ const HeroSlide = () => {
   const [movieItems, setMovieItems] = useState([]);
 
   useEffect(() => {
-    const getMovies = async () => {
-      const params = { page: 1 };
-      try {
-        const response = await tmdbApi.getMoviesList(movieType.popular, {
-          params,
-        });
-        setMovieItems(response.results.slice(0, 4));
-        console.log(response);
-      } catch {
-        console.log("error");
-      }
-    };
-    getMovies();
-  }, []);
+  const getPopularMix = async () => {
+    try {
+      // Fetch latest popular movies (page 1 = newest / trending first)
+      const movieResponse = await tmdbApi.getMoviesList(movieType.popular, {
+        params: { page: 1 },
+      });
+
+      // Fetch latest popular TV shows
+      const tvResponse = await tmdbApi.getTvList(tvType.popular, {
+        params: { page: 1 },
+      });
+
+      // Merge movies + TV shows
+      const combinedResults = [
+        ...movieResponse.results,
+        ...tvResponse.results,
+      ];
+
+      // Sort by release_date / first_air_date (latest first)
+      const sorted = combinedResults.sort((a, b) => {
+        const dateA = new Date(a.release_date || a.first_air_date || 0);
+        const dateB = new Date(b.release_date || b.first_air_date || 0);
+        return dateB - dateA; // latest first
+      });
+
+      // Pick top 4 (latest popular)
+      const latestMix = sorted.slice(0, 4);
+
+      setMovieItems(latestMix);
+      console.log(latestMix);
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
+  getPopularMix();
+}, []);
+
+
 
   return (
     <div className="hero-slide">
