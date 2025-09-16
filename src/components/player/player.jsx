@@ -1,9 +1,32 @@
+// import React from "react";
+// import { useParams } from "react-router-dom";
+
+// const Player = () => {
+//   const { id } = useParams(); 
+//   const embedUrl = `https://multiembed.mov/?video_id=${id}&tmdb=1`;
+
+//   return (
+//     <div className="w-full h-screen flex justify-center items-center bg-black">
+//       <iframe
+//         src={embedUrl}
+//         width="100%"
+//         height="100%"
+//         allowFullScreen
+//         title="Movie Player"
+//       ></iframe>
+//     </div>
+//   );
+// };
+
+// export default Player;
+
+
 import React from "react";
 import { useParams } from "react-router-dom";
 
 const Player = () => {
   const { id } = useParams(); 
-  const embedUrl = `https://multiembed.mov/?video_id=${id}&tmdb=1`;
+  const embedUrl = `https://player.videasy.net/movie/${id}`;
 
   return (
     <div className="w-full h-screen flex justify-center items-center bg-black">
@@ -12,6 +35,7 @@ const Player = () => {
         width="100%"
         height="100%"
         allowFullScreen
+        allow="encrypted-media"
         title="Movie Player"
       ></iframe>
     </div>
@@ -19,3 +43,4 @@ const Player = () => {
 };
 
 export default Player;
+

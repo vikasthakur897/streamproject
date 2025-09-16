@@ -4,7 +4,7 @@ import { useParams, useHistory } from "react-router";
 import tmdbApi from "./../../api/tmdbApi";
 import apiConfig from "../../api/apiConfig";
 import * as Config from "../../constants/Config";
-
+import genreIcons  from "../../lib/genreIcons.js";
 import "./detail.scss";
 import CastList from "./CastList";
 import VideoList from "./VideoList";
@@ -53,16 +53,34 @@ const Detail = () => {
             <div className="movie-content__info">
               <h1 className="title">{item.title || item.name}</h1>
               <div className="flex justify-start">
-                <button className="mt-4 border-2 border-white rounded-lg px-4 py-2" onClick={() => history.push(`/${Config.HOME_PAGE}/watch/${id}`)}>Watch Now</button>
-              </div>
-              <div className="genres">
-                {item.genres &&
-                  item.genres.slice(0, 5).map((genre, index) => (
-                    <span key={index} className="genres__item">
-                      {genre.name}
-                    </span>
-                  ))}
-              </div>
+  <button
+    className="mt-4 px-6 py-2 rounded-xl font-semibold text-white 
+               bg-red-600 border-2 border-red-600 
+               hover:bg-black hover:text-red-500 hover:border-red-500 
+               transition-all duration-300 shadow-md"
+    onClick={() => history.push(`/${Config.HOME_PAGE}/watch/${id}`)}
+  >
+    ▶ Watch Now
+  </button>
+</div>
+
+                
+             <div className="genres flex flex-wrap gap-2 mt-2">
+               {item.genres &&
+                 item.genres.slice(0, 5).map((genre, index) => {
+                   const Icon = genreIcons[genre.name] || genreIcons.default;
+                   return (
+                     <span
+                       key={index}
+                       className="flex items-center gap-2 bg-red-600 text-white px-3 py-1 rounded-full text-lg shadow-md"
+                     >
+                       <Icon className="text-[16px]" />
+                       <span className="text-[14px]">{genre.name}</span>
+                     </span>
+                   );
+                 })}
+             </div>
+
               <p className="overview">{item.overview}</p>
               <div className="cast">
                 <div className="section__header">
@@ -77,9 +95,9 @@ const Detail = () => {
           </div>
 
           <div className="container">
-            <div className="section mb-3">
+            {/* <div className="section mb-3">
               <VideoList id={item.id} />
-            </div>
+            </div> */}
             <div className="section mb-3">
               <div className="section__header mb-2">
                 <h2>Similar</h2>

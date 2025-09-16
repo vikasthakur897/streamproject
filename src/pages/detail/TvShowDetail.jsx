@@ -3,12 +3,12 @@ import { useParams, useHistory } from "react-router";
 
 import tmdbApi from "./../../api/tmdbApi";
 import apiConfig from "../../api/apiConfig";
-import * as Config from "../../constants/Config";
+import  genreIcons  from "../../lib/genreIcons.js";
 
 import "./detail.scss";
 import CastList from "./CastList";
 import MovieList from "./../../components/movie-list/MovieList";
-import SeasonList from "../../components/SessionEpisode/SeasonList"; // ✅ fixed import
+import SeasonList from "../../components/SessionEpisode/SeasonList"; 
 
 const TvShowDetail = () => {
   const { category, id } = useParams();
@@ -56,19 +56,29 @@ const TvShowDetail = () => {
 
             <div className="movie-content__info">
               <h1 className="title">{item.title || item.name}</h1>
-              <div className="genres">
-                {item.genres &&
-                  item.genres.slice(0, 5).map((genre, index) => (
-                    <span key={index} className="genres__item">
-                      {genre.name}
-                    </span>
-                  ))}
-              </div>
+        
+              
+       <div className="genres flex flex-wrap gap-2 mt-2">
+  {item.genres &&
+    item.genres.slice(0, 5).map((genre, index) => {
+      const Icon = genreIcons[genre.name] || genreIcons.default;
+      return (
+        <span
+          key={index}
+          className="flex items-center gap-2 bg-red-600 text-white px-3 py-1 rounded-full text-lg shadow-md"
+        >
+          <Icon className="text-[16px]" />
+          <span className="text-[14px]">{genre.name}</span>
+        </span>
+      );
+    })}
+</div>
+
+
+
               <p className="overview">{item.overview}</p>
               <div className="cast">
-                <div className="section__header">
-                  <h2>Casts</h2>
-                </div>
+               
                 <CastList id={item.id} />
               </div>
             </div>

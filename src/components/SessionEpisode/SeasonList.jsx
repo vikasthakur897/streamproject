@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import tmdbApi from "../../api/tmdbApi";
 import apiConfig from "../../api/apiConfig";
+import { useHistory } from "react-router-dom";
 
 const SeasonList = ({ tvId, seasons }) => {
+  const history = useHistory();
   const [episodes, setEpisodes] = useState({});
   const [expandedSeason, setExpandedSeason] = useState(null);
   const [activeEpisode, setActiveEpisode] = useState(null);
@@ -74,39 +76,23 @@ const SeasonList = ({ tvId, seasons }) => {
                           {ep.episode_number}. {ep.name}
                         </h4>
                         <p className="text-sm opacity-75">{ep.overview}</p>
-                       
                       </div>
-                      
-                     
                     </div>
 
                     <div className="flex flex-col">
-                      <button 
-                          className="mt-2 border border-white rounded px-3 py-1 text-sm hover:bg-white hover:text-black transition"
-                          onClick={() =>
-                            setActiveEpisode({
-                              season: season.season_number,
-                              episode: ep.episode_number,
-                            })
-                          }
-                        >
-                          ▶ Watch Episode
-                        </button>
-                      </div>
 
-                    {/* Inline Video Player */}
-                    {activeEpisode &&
-                      activeEpisode.season === season.season_number &&
-                      activeEpisode.episode === ep.episode_number && (
-                        <div className="mt-3 w-full">
-                          <iframe
-                            src={`https://multiembed.mov/?video_id=${tvId}&tmdb=1&s=${season.season_number}&e=${ep.episode_number}`}
-                            title="Episode Player"
-                            allowFullScreen
-                            className="w-full h-[400px] rounded-lg border border-gray-700"
-                          ></iframe>
-                        </div>
-                      )}
+                      <button
+                        onClick={() =>
+                          history.push(
+                            `/watch/${tvId}?season=${season.season_number}&episode=${ep.episode_number}`
+                          )
+                        }
+                        className="mt-4 border border-white text-white font-semibold px-4 py-2 rounded-lg shadow-md"
+                      >
+                        ▶ Watch Now
+                      </button>
+                    </div>
+
                   </div>
                 ))}
               </div>
