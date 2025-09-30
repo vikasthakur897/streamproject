@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useCallback } from "react";
 import { useHistory } from "react-router-dom";
 import tmdbApi, { category } from "../../api/tmdbApi"; // adjust path
@@ -21,7 +22,17 @@ const Search = (props) => {
           params: { query: keyword },
         });
 
-        const results = [...movieRes.results, ...tvRes.results].slice(0, 6);
+        // Add media_type manually
+        const movieResults = movieRes.results.map((m) => ({
+          ...m,
+          media_type: "movie",
+        }));
+        const tvResults = tvRes.results.map((t) => ({
+          ...t,
+          media_type: "tv",
+        }));
+
+        const results = [...movieResults, ...tvResults].slice(0, 6);
         setSuggestions(results);
       } catch (error) {
         console.log("Suggestion error:", error);
@@ -76,40 +87,43 @@ const Search = (props) => {
       </div>
 
       {/* Suggestions as cards */}
-     {keyword.trim().length > 0 && suggestions.length > 0 && (
-  <ul className="absolute left-0 top-full w-full bg-white shadow-lg rounded-md mt-2 max-h-80 overflow-auto z-50">
-    {suggestions.map((item) => (
-      <li
-        key={item.id}
-        className="flex items-center gap-3 p-2 cursor-pointer hover:bg-gray-100 transition"
-        onClick={() =>
-          history.push(
-            `/${category[item.media_type] || props.category}/${item.id}`
-          )
-        }
-      >
-        {/* Poster Thumbnail */}
-        <img
-          src={
-            item.poster_path
-              ? `https://image.tmdb.org/t/p/w92${item.poster_path}`
-              : "https://via.placeholder.com/92x138?text=No+Image"
-          }
-          alt={item.title || item.name}
-          className="w-12 h-16 object-cover rounded"
-        />
+      {keyword.trim().length > 0 && suggestions.length > 0 && (
+        <ul className="absolute left-0 top-full w-full bg-gray-900 text-white shadow-lg rounded-md mt-2 max-h-80 overflow-auto z-50">
+          {suggestions.map((item) => {
+            const link =
+              item.media_type === "movie"
+                ? `/${Config.HOME_PAGE}/${category[props.category]}/movie/${item.id}`
+                : `/${Config.HOME_PAGE}/${category[props.category]}/show/${item.id}`;
 
-        {/* Title */}
-        <p className="text-sm font-medium line-clamp-1">
-          {item.title || item.name}
-        </p>
-      </li>
-    ))}
-  </ul>
-)}
+            return (
+              <li
+                key={item.id}
+                className="flex items-center gap-3 p-2 cursor-pointer hover:bg-gray-700 transition"
+                onClick={() => history.push(link)}
+              >
+                {/* Poster Thumbnail */}
+                <img
+                  src={
+                    item.poster_path
+                      ? `https://image.tmdb.org/t/p/w92${item.poster_path}`
+                      : "https://via.placeholder.com/92x138?text=No+Image"
+                  }
+                  alt={item.title || item.name}
+                  className="w-12 h-16 object-cover rounded"
+                />
 
+                {/* Title */}
+                <p className="text-sm font-medium line-clamp-1">
+                  {item.title || item.name}
+                </p>
+              </li>
+            );
+          })}
+        </ul>
+      )}
     </div>
   );
 };
 
 export default Search;
+

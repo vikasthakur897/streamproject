@@ -22,7 +22,7 @@ const Routes = () => {
       <Route path="/watch/:id" component={WatchPage} />
 
       <Route path={`/${Config.HOME_PAGE}/:category/show/:id`} component={TvShowDetail} />
-      <Route path={`/${Config.HOME_PAGE}/:category/:id`} component={Detail} />
+      <Route path={`/${Config.HOME_PAGE}/:category/movie/:id`} component={Detail} />
       <Route path={`/${Config.HOME_PAGE}/:category`} component={Catalog} />
       <Route path={`/${Config.HOME_PAGE}`} exact component={Home} />
     </Switch>
